@@ -22,7 +22,7 @@
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{corollary}[theorem]{Corollary}
 
-\title{Syntax and Typing for Core Cedille}
+\title{Syntax and Typing for Cedille Core}
 
 \author{Aaron Stump}
 
@@ -31,10 +31,9 @@
 \section{Motivation}
 
 This note proposes a syntax for annotated terms and type-computation
-rules for them, for a core version of Cedille.  Cedille should be
-easily translatable to core Cedille, though we have neither proved nor
-implemented this yet (we are planning to implement in the next
-month or so).
+rules for them, for a core version of Cedille, to which full Cedille
+is easily translatable.  Additionally, Cedille Core may be a good target
+for other higher-level extrinsic type theories.
 
 The goal is to have a version of Cedille for which typing can be
 implemented straightforwardly, in a small, trustworthy checker.
@@ -72,12 +71,6 @@ usually ahead of the papers):
     type-level $\lambda$-abstractions now; we did not know how to
     give the semantics for them before.  
 
-  \item Below we use $\beta\eta$-reduction, while our papers
-    just talk about $\beta$-reduction.  The use of $\eta$ seems
-    somewhat essential to some of what we are doing, so this is an
-    important addition.  We think it should be straightforward to
-    add $\eta$ to our semantics.
-
   \item The system below omits lifting, which is needed in our
     approach for large eliminations.  We have an approach to lifting
     in~\cite{stump17a}, but the way it is done there is somewhat
@@ -90,15 +83,15 @@ usually ahead of the papers):
 
   \item Note that full Cedille currently does not allow $\forall$ at the kind level,
     and hence does not support erased $\lambda$-abstractions at the type level.  While
-    perhaps we know enough now to support this feature semantically, we have not
-    seen any need for it and hence omit it below.
+    we think we know enough now to support this feature semantically, we have not
+    worked out the details yet and hence omit it.
 
     \end{enumerate}
 
 \section{Syntax}
 \label{sec:syntax}
 
-Figure~\ref{fig:syntax} gives the syntax for terms of Core Cedille, in
+Figure~\ref{fig:syntax} gives the syntax for terms of Cedille Core, in
 the style of pure type systems~\cite{B92}: we have just one syntactic
 category of terms, and we rely on the type system to distinguish
 terms, types, and kinds (and a sole superkind $\Box$).  The constructs
@@ -150,7 +143,7 @@ the typing rules below, we will also use this definition:
   \ &\ & \{ p \simeq p' \} &\textnormal{equality between pure terms}
 \end{array}
   \]
-  \caption{Sytax for core Cedille}
+  \caption{Sytax for Cedille Core}
   \label{fig:syntax}
 \end{figure}
 
@@ -206,7 +199,7 @@ Figure~\ref{fig:eraser}.
 
 \section{Typing}
 
-The type-checking algorithm for Core Cedille is presented as ``almost'' algorithmic typing rules (more on this shortly),
+The type-checking algorithm for Cedille Core is presented as ``almost'' algorithmic typing rules (more on this shortly),
 in Figure~\ref{fig:rules}.  The rules are almost algorithmic because we must understand a few conventions for applying the rules:
 
 \begin{itemize}
@@ -275,54 +268,12 @@ well.
 
   \end{array}
   \]
-  \caption{Type-checking rules for Core Cedille}
+  \caption{Type-checking rules for Cedille Core}
   \label{fig:rules}
 \end{figure}
 
-\section{Conclusion}
-
-For further examples and intuition on how some of these constructs are
-used, personal consultation and comparison with published, submitted,
-and planned papers will be necessary.  Also, please note that I wrote
-out these rules in a short period of time and so it is possible there
-are typos (so please ask me if anything seems weird).
-
-
 \bibliographystyle{plain}
 \bibliography{biblio}
-
-\appendix 
-\section{Change log}
-
-\begin{itemize}
-\item Feb. 14, 2018:
-  \begin{itemize}
-  \item added another premise to the rule for introducing dependent intersections, to
-    make sure that the dependent intersection itself if typable.
-  \item Equations are now required to be only between pure
-    (unannotated) terms.  This is a syntactic check, which is now
-    described in Section~\ref{sec:termcheck}.  It requires different
-    lexical classes for term, type, and kind variables.  In turn, this
-    requires that the typing rules check, with a new helper judgment
-    $\textit{Var}(x,s)$, that we are using the proper class of
-    variable when we introduce a local variable.
-   
-  \end{itemize}
-\item Feb. 14, 2018, pm:
-  \begin{itemize}
-  \item Corrected glaring omission of the requirement for typing $[t,t'\ @\ x.T]$, that $|t| = |t'|$.  It is fine if one implements
-    this check instead as $|t| =_{\beta\eta} |t'|$, simply to save writing a separate function for testing $\alpha$-equivalence. 
-  \end{itemize}
-\item Feb. 16:
-  \begin{itemize}
-  \item removed type annotation on definiens in a let-expression.
-  \item Changed syntax $\beta\{t\}$ to $\beta\ t'\{t\}$.
-    \end{itemize}
-\item Feb. 20: fix silly typo noticed by Victor, in the rule for $t.2$.  Also, erase $\lambda x$ differently from $\lambda X$.
-
-\item Feb. 21: fixed rule for $\Lambda$-terms: we must check that the bound variable is not free in the erasure of the body.
-\item March 25: added $\delta$ to inhabit any type if given a proof that Church-encoded boolean \emph{true} equals \emph{false}.
-\end{itemize}
 
 
 \end{document}
