@@ -245,7 +245,7 @@ well.
 \\ \\
     \infer{\Gamma\vdash t.1 : t_1}{\Gamma\vdash t : \abs{\iota}{x}{t_1}{t_2}} &
     \infer{\Gamma\vdash t\ \mhyph t' : [t'/x]t_2}{\Gamma\vdash t : \abs{\forall}{x}{t_1}{t_2} & \Gamma\vdash t : t_1} &
-    \infer{\Gamma\vdash \rho\ t\ @\ x.t'\ \mhyph\ t'' : [t_2/x]t'}{\Gamma \vdash t : \{ t_1 \simeq t_2 \} \quad \Gamma\vdash t'' : [t_1/x]t'}
+    \infer{\Gamma\vdash \rho\ t\ @\ x.t'\ \mhyph\ t'' : [t_1/x]t'}{\Gamma \vdash t : \{ t_1 \simeq t_2 \} \quad \Gamma\vdash t'' : [t_2/x]t'}
     \\ \\
     \infer{\Gamma\vdash \beta\ t'\{t\} : \{ t' \simeq t'\}}{\Gamma\vdash \{ t' \simeq t' \} : \star } &
     \infer{\Gamma\vdash \{ p \simeq p'\} : \star}{\textit{FV}(p\ p')\subseteq \textit{dom}(\Gamma)} &
@@ -271,6 +271,10 @@ well.
   \caption{Type-checking rules for Cedille Core}
   \label{fig:rules}
 \end{figure}
+
+Note that $\rho$ rewrites from the right-hand side of an equation to
+the left-hand side, for consistency when synthesizing a type for a
+$\rho$-term in full Cedille.
 
 \bibliographystyle{plain}
 \bibliography{biblio}
