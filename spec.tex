@@ -247,7 +247,7 @@ well.
     \infer{\Gamma\vdash t\ \mhyph t' : [t'/x]t_2}{\Gamma\vdash t : \abs{\forall}{x}{t_1}{t_2} & \Gamma\vdash t : t_1} &
     \infer{\Gamma\vdash \rho\ t\ @\ x.t'\ \mhyph\ t'' : [t_1/x]t'}{\Gamma \vdash t : \{ t_1 \simeq t_2 \} \quad \Gamma\vdash t'' : [t_2/x]t'}
     \\ \\
-    \infer{\Gamma\vdash \beta\ t'\{t\} : \{ t' \simeq t'\}}{\Gamma\vdash \{ t' \simeq t' \} : \star } &
+    \infer{\Gamma\vdash \beta\ t'\{t\} : \{ t' \simeq t'\}}{\Gamma\vdash \{ t' \simeq t' \} : \star \quad FV(t) \subseteq dom(\Gamma)} &
     \infer{\Gamma\vdash \{ p \simeq p'\} : \star}{\textit{FV}(p\ p')\subseteq \textit{dom}(\Gamma)} &
      \infer{\Gamma\vdash [ k = t_1 : \Box ]\ \mhyph\ t_2 : t''}{\Gamma\vdash t_1 : \Box \quad
                                                                \Gamma, k = t_1 : t' \vdash t_2 : t''}  
